@@ -59,7 +59,7 @@ install() {
 	elif [ -d "/etc/init.d" ]; then
 		if [ -f "/sbin/rc-update" ]; then
 			cp -f apf.rc /etc/init.d/apf		
-		elif
+		else
 			cp -f apf.init /etc/init.d/apf
 		fi
         else
