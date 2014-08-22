@@ -98,12 +98,13 @@ fi
 }
 
 modinit() {
+# Remove ipchains module if loaded
+IPC_VAL=`$LSM | grep ipchains 2>/dev/null`
+if [ ! "$IPC_VAL" == "" ]; then
+        $RMM ipchains 2>/dev/null
+fi
+
 if [ ! "$SET_MONOKERN" == "1" ]; then
-	# Remove ipchains module if loaded
-	IPC_VAL=`$LSM | grep ipchains`
-	if [ ! "$IPC_VAL" == "" ]; then
-	        $RMM ipchains
-	fi
 	# Loading Kernel Modules
 	ml ip_tables 1
 	ml iptable_filter
