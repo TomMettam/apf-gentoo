@@ -1,0 +1,19 @@
+#!/sbin/runscript
+
+depend() {
+  need net
+  use iptables
+  provide apf
+}
+
+start() {
+  apf -s >> /dev/null 2>&1
+}
+
+restart() {
+  apf -r >> /dev/null 2>&1
+}
+
+stop() {
+  apf -f >> /dev/null 2>&1
+}

@@ -289,7 +289,7 @@ if [ ! "$HOST" == "" ]; then
         val_rev=`cat $ALLOW_HOSTS | grep -w $HOST`
         val_rev2=`cat $GALLOW_HOSTS | grep -w $HOST`
         val_rev3=`cat $GDENY_HOSTS | grep -w $HOST`
-        val_rev4=`/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $HOST`
+        val_rev4=`ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $HOST`
         if [ ! "$val" == "" ]; then
                 echo "$HOST already exists in $DENY_HOSTS"
         elif [ ! "$val_rev" == "" ]; then
@@ -330,7 +330,7 @@ if [ ! "$HOST" == "" ]; then
         val_rev=`cat $ALLOW_HOSTS | grep -w $HOST`
 	val_rev2=`cat $GALLOW_HOSTS | grep -w $HOST`
 	val_rev3=`cat $GDENY_HOSTS | grep -w $HOST`
-        val_rev4=`/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $HOST`
+        val_rev4=`ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $HOST`
         if [ ! "$val" == "" ]; then
                	echo "$HOST already exists in $DENY_HOSTS"
 	elif [ ! "$val_rev" == "" ]; then
@@ -552,7 +552,7 @@ if [ ! "`cat $ALLOW_HOSTS | grep -v "#"`" == "" ]; then
         #
         #
         for i in `cat $ALLOW_HOSTS | grep -v "#" | grep -v ":" | grep -v "="`; do
-                val=`/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $i`
+                val=`ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $i`
                 if [ ! "$val" ]; then
                  if [ ! "$i" == "" ] && [ -f "$ALLOW_HOSTS" ]; then
                         eout "{trust} allow all to/from $i"
@@ -634,9 +634,9 @@ if [ ! "`cat $ALLOW_HOSTS | grep -v "#"`" == "" ]; then
                         PIP=`echo $i | tr ':' ' ' | tr '=' ' ' | awk '{print$5}'`
 
                         if [ ! "$NFLOW" == "" ] && [ ! "$IPFLOW" == "" ] && [ ! "$PIP" == "" ] && [ ! "$IPFLOW" == "" ] && [ ! "$PPORT" == "" ]; then
-                         if [ "$IPFLOW" == "s" ] && [ "$NFLOW" == "INPUT" ] && [ "$(/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
+                         if [ "$IPFLOW" == "s" ] && [ "$NFLOW" == "INPUT" ] && [ "$(ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
                                 eout "{trust} ignored local ip allow rule '$NFLOW_T $PIP $PFLOW_T port $PPORT'"
-                         elif [ "$IPFLOW" == "d" ] && [ "$NFLOW" == "OUTPUT" ] && [ "$(/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
+                         elif [ "$IPFLOW" == "d" ] && [ "$NFLOW" == "OUTPUT" ] && [ "$(ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
                                 eout "{trust} ignored local ip allow rule '$NFLOW_T $PIP $PFLOW_T port $PPORT'"
                          else
                                 eout "{trust} allow $NFLOW_T $PIP $PFLOW_T port $PPORT"
@@ -692,9 +692,9 @@ if [ ! "`cat $ALLOW_HOSTS | grep -v "#"`" == "" ]; then
 
 
                         if [ ! "$PTYPE" == "" ] && [ ! "$NFLOW" == "" ] && [ ! "$IPFLOW" == "" ] && [ ! "$PIP" == "" ] && [ ! "$IPFLOW" == "" ] && [ ! "$PPORT" == "" ]; then
-                         if [ "$IPFLOW" == "s" ] && [ "$NFLOW" == "INPUT" ] && [ "$(/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
+                         if [ "$IPFLOW" == "s" ] && [ "$NFLOW" == "INPUT" ] && [ "$(ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
                                 eout "{trust} ignored local ip allow rule '$NFLOW_T $PIP $PFLOW_T port $PPORT'"
-                         elif [ "$IPFLOW" == "d" ] && [ "$NFLOW" == "OUTPUT" ] && [ "$(/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
+                         elif [ "$IPFLOW" == "d" ] && [ "$NFLOW" == "OUTPUT" ] && [ "$(ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $PIP)" ]; then
                                 eout "{trust} ignored local ip allow rule '$NFLOW_T $PIP $PFLOW_T port $PPORT'"
                          else
                                 eout "{trust} allow $NFLOW_T $PTYPE $PIP $PFLOW_T port $PPORT"
@@ -857,7 +857,7 @@ if [ ! "`cat $DENY_HOSTS | grep -v "#"`" == "" ]; then
         #
         #
         for i in `cat $DENY_HOSTS | grep -v "#" | grep -v ":" | grep -v "="`; do
-                val=`/sbin/ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $i`
+                val=`ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $i`
                 if [ ! "$val" ]; then
                  if [ ! "$i" == "" ] && [ -f "$DENY_HOSTS" ]; then
                         eout "{trust} deny all to/from $i"
@@ -1544,7 +1544,7 @@ refresh() {
 	fi
         eout "{glob} refreshing trust system rules."
 	tmpra="/etc/apf/internals/refresh.allow.temp.$$"
-        /sbin/iptables-save | grep -E "TALLOW|TGALLOW" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print$4}' | sort -n | uniq > $tmpra
+        iptables-save | grep -E "TALLOW|TGALLOW" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print$4}' | sort -n | uniq > $tmpra
         $IPT -F REFRESH_TEMP
         for i in `cat $tmpra | grep -v "#"`; do
                 if [ ! "$i" == "" ]; then
@@ -1553,7 +1553,7 @@ refresh() {
                 fi
         done
         tmprd="/etc/apf/internals/refresh.drop.temp.$$"
-        /sbin/iptables-save | grep -E "TDENY|TGDENY" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print$4}' | sort -n | uniq > $tmprd
+        iptables-save | grep -E "TDENY|TGDENY" | grep -E '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print$4}' | sort -n | uniq > $tmprd
         $IPT -F REFRESH_TEMP
         for i in `cat $tmprd | grep -v "#"`; do
                 if [ ! "$i" == "" ]; then

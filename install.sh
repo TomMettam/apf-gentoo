@@ -21,8 +21,8 @@
 ###
 #
 INSTALL_PATH="/etc/apf"
-BINPATH="/usr/local/sbin/apf"
-COMPAT_BINPATH="/usr/local/sbin/fwmgr"
+BINPATH="/usr/bin/apf"
+COMPAT_BINPATH="/usr/bin/fwmgr"
 
 install() {
         mkdir $INSTALL_PATH
@@ -57,7 +57,11 @@ install() {
 	if [ -d "/etc/rc.d/init.d" ]; then
                 cp -f apf.init /etc/rc.d/init.d/apf
 	elif [ -d "/etc/init.d" ]; then
-		cp -f apf.init /etc/init.d/apf
+		if [ -f "/sbin/rc-update" ]; then
+			cp -f apf.rc /etc/init.d/apf		
+		elif
+			cp -f apf.init /etc/init.d/apf
+		fi
         else
 		if [ -f "/etc/rc.local" ]; then
 			val=`grep -i apf /etc/rc.local`
@@ -73,8 +77,11 @@ install() {
 		cp logrotate.d.apf /etc/logrotate.d/apf
 	fi
 	if [ -f "/sbin/chkconfig" ]; then
-	/sbin/chkconfig --add apf
-	/sbin/chkconfig --level 345 apf on
+		/sbin/chkconfig --add apf
+		/sbin/chkconfig --level 345 apf on
+	fi
+	if [ -f "/sbin/rc-update" ]; then
+		#Don't add the service automatically in Gentoo.
 	fi
 	/etc/apf/vnet/vnetgen
 	if [ -f "/usr/bin/dialog" ] && [ -d "/etc/apf/extras/apf-m" ]; then
