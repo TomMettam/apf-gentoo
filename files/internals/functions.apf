@@ -154,14 +154,16 @@ fi
 }
 
 check_rab() {
-ml xt_recent
-ml ipt_recent
-if [ ! -f "/lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/ipt_recent.$MEXT" ] && [ ! -f "/lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/xt_recent.$MEXT" ] && [ ! -f "/lib/modules/$(uname -r)/kernel/net/netfilter/xt_recent.$MEXT" ]; then
- if [ "$RAB" == "1" ]; then
-	RAB="0"
-	eout "{rab} force set RAB disabled, kernel module xt/ipt_recent not found."
- fi
-fi
+	ml xt_recent
+	ml ipt_recent
+	iptables -N 11e48c210800200c9a66 2>/dev/null
+	iptables -A 11e48c210800200c9a66 -m recent --set 2>/dev/null
+	if [ $? -ne 0 ]; then
+		RAB="0"
+		eout "{rab} force set RAB disabled, kernel module xt/ipt_recent not found."
+	fi
+	iptables -F 11e48c210800200c9a66 2>/dev/null
+	iptables -X 11e48c210800200c9a66 2>/dev/null
 }
 
 get_state() {
