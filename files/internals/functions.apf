@@ -1015,6 +1015,8 @@ if [ ! "`cat $GDENY_HOSTS | grep -v "#"`" == "" ]; then
         #
         #
         for i in `cat $GDENY_HOSTS | grep -v "#" | grep -v ":" | grep -v "="`; do
+        	i="${i#"${i%%[![:space:]]*}"}"
+                i="${i%"${i##*[![:space:]]}"}"
                 if [ ! "$i" == "" ] && [ -f "$GDENY_HOSTS" ]; then
                         eout "{trust} {glob_deny_hosts} deny all to/from $i"
                         $IPT -A TGDENY -s $i -d 0/0 -j $ALL_STOP
