@@ -25,6 +25,7 @@ BINPATH="/usr/bin/apf"
 COMPAT_BINPATH="/usr/bin/fwmgr"
 
 install() {
+	echo " "
         mkdir $INSTALL_PATH
         mkdir $INSTALL_PATH/doc
         cp -fR files/* $INSTALL_PATH
@@ -55,13 +56,14 @@ install() {
                 cp cron.daily /etc/cron.daily/apf
                 chmod 755 /etc/cron.daily/apf
         fi
-        echo "Detecting init system type.. "
+        echo -n "Detecting init system type.. "
 	if [ -d "/etc/rc.d/init.d" ]; then
-		echo -n "Found rc.d."
+		echo "Found rc.d."
                 cp -f apf.init /etc/rc.d/init.d/apf
 	elif [ -d "/etc/init.d" ]; then
 		if [ -f "/sbin/rc-update" ]; then
 			echo -n "Found OpenRC."
+			pwd
 			cp -f apf.rc /etc/init.d/apf		
 		else
 			echo -n "Found /etc/init.d."
@@ -102,10 +104,10 @@ if [ -d "$INSTALL_PATH" ]; then
 	rm -f /etc/apf.bk.last
 	ln -fs $INSTALL_PATH.bk$DVAL /etc/apf.bk.last 
 	rm -rf $INSTALL_PATH
-	echo -n "Installing APF $VER: "
+	echo "Installing APF $VER: "
 	install
 else
-        echo -n "Installing APF $VER: "
+        echo "Installing APF $VER: "
 	install
 fi
 
