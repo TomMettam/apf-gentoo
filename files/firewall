@@ -30,7 +30,7 @@ else
    exit 1
 fi
 
-if [ ! -f "$ip" ] && [ ! -f "$ifconfig" ]; then
+if [ ! type -P "$ip" >/dev/null ] && [ ! type -P "$ifconfig" >/dev/null ]; then
 	eout "{glob} $ip and $ifconfig not found; aborting"
 	exit 1
 fi
