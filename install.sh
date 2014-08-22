@@ -63,13 +63,13 @@ install() {
 	elif [ -d "/etc/init.d" ]; then
 		if [ -f "/sbin/rc-update" ]; then
 			echo -n "Found OpenRC."
-			pwd
 			cp -f apf.rc /etc/init.d/apf		
 		else
 			echo -n "Found /etc/init.d."
 			cp -f apf.init /etc/init.d/apf
 		fi
         else
+        	echo -n "Found /etc/rc.local"
 		if [ -f "/etc/rc.local" ]; then
 			val=`grep -i apf /etc/rc.local`
 			if [ "$val" == "" ]; then
