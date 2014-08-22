@@ -862,7 +862,7 @@ if [ ! "`cat $DENY_HOSTS | grep -v "#"`" == "" ]; then
                 val=`ip addr list $IFACE_IN | grep -w inet | grep -v inet6 | tr '/' ' ' | awk '{print$2}' | grep -w $i`
                 if [ ! "$val" ]; then
                  if [ ! "$i" == "" ] && [ -f "$DENY_HOSTS" ]; then
-                        eout "{trust} deny all to/from $i"
+                        eout "{trust} {deny_hosts} deny all to/from $i"
                         $IPT -A TDENY -s $i -d 0/0 -j $ALL_STOP
                         $IPT -A TDENY -d $i -s 0/0 -j $ALL_STOP
                  fi
@@ -1016,7 +1016,7 @@ if [ ! "`cat $GDENY_HOSTS | grep -v "#"`" == "" ]; then
         #
         for i in `cat $GDENY_HOSTS | grep -v "#" | grep -v ":" | grep -v "="`; do
                 if [ ! "$i" == "" ] && [ -f "$GDENY_HOSTS" ]; then
-                        eout "{trust} deny all to/from $i"
+                        eout "{trust} {glob_deny_hosts} deny all to/from $i"
                         $IPT -A TGDENY -s $i -d 0/0 -j $ALL_STOP
                         $IPT -A TGDENY -d $i -s 0/0 -j $ALL_STOP
                 fi
