@@ -80,9 +80,6 @@ install() {
 		/sbin/chkconfig --add apf
 		/sbin/chkconfig --level 345 apf on
 	fi
-	if [ -f "/sbin/rc-update" ]; then
-		#Don't add the service automatically in Gentoo.
-	fi
 	/etc/apf/vnet/vnetgen
 	if [ -f "/usr/bin/dialog" ] && [ -d "/etc/apf/extras/apf-m" ]; then
 		last=`pwd`
