@@ -55,12 +55,17 @@ install() {
                 cp cron.daily /etc/cron.daily/apf
                 chmod 755 /etc/cron.daily/apf
         fi
+        echo -n "Detecting init system type"
 	if [ -d "/etc/rc.d/init.d" ]; then
+		echo -n "Found rc.d"
                 cp -f apf.init /etc/rc.d/init.d/apf
 	elif [ -d "/etc/init.d" ]; then
+		echo -n "Installing init script into /etc/init.d"
 		if [ -f "/sbin/rc-update" ]; then
+			echo -n "Found OpenRC"
 			cp -f apf.rc /etc/init.d/apf		
 		else
+			echo -n "Found /etc/init.d"
 			cp -f apf.init /etc/init.d/apf
 		fi
         else
