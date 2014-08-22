@@ -26,6 +26,7 @@ COMPAT_BINPATH="/usr/bin/fwmgr"
 
 install() {
         mkdir $INSTALL_PATH
+        mkdir $INSTALL_PATH/doc
         cp -fR files/* $INSTALL_PATH
         chmod -R 640 $INSTALL_PATH/*
         chmod 750 $INSTALL_PATH/apf
